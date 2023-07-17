@@ -16,11 +16,11 @@ public class Transfer {
 
     //@ManyToOne
     //@JoinColumn(name = "origin_account_id", nullable = false)
-    private Account origin;
+    private Long origin;
 
     //@ManyToOne
     //@JoinColumn(name = "target_account_id")
-    private Account target;
+    private Long target;
 
     private Date date;
     private BigDecimal amount;

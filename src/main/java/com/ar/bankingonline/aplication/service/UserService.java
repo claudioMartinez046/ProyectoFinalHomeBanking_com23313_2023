@@ -6,6 +6,7 @@ import com.ar.bankingonline.domain.exceptions.AccountNotFoundException;
 import com.ar.bankingonline.domain.models.Account;
 import com.ar.bankingonline.domain.models.User;
 import com.ar.bankingonline.api.controllers.dtos.UserDto;
+import com.ar.bankingonline.infrastructure.repositories.AccountRepository;
 import com.ar.bankingonline.infrastructure.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +24,15 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public UserService(UserRepository repository) {
+    @Autowired
+    private AccountRepository accountRepository;
+    //constructor
+    public UserService(UserRepository repository,AccountRepository accountRepository){
+
         this.repository = repository;
+        this.accountRepository=accountRepository;
     }
+
     //Primero generar los metodos del CRUD
         //una forma de casteo usando el UserMapper, convirtiendo los uderDTO del la base de datos a user normales de entidas
     public List<UserDto> getUsers(){

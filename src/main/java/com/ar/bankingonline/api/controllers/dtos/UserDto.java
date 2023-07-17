@@ -12,5 +12,5 @@ public class UserDto {
     private Long id;
     private String username;
     private String password;
-    private List<Long> idAccount;
+    private List<Long> idAccounts;
 }

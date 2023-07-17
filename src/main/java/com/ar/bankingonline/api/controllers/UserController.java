@@ -15,9 +15,10 @@ import java.util.List;
 //definiendola arriba del controlador ,despues de la url base define a donde se tiene que dirigiren
 @RequestMapping("/api")
 public class UserController {
-    @Autowired
-    private final UserService service;
 
+    private UserService service;
+
+    @Autowired
     public UserController(UserService service){
         this.service = service;
     }

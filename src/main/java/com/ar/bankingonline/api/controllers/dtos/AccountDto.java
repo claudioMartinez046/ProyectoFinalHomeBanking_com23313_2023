@@ -9,6 +9,6 @@ public class AccountDto {
     private Long id;
     private int number;
     private BigDecimal amount;
-    private User owner;
+    private UserDto owner;
 
 }
