@@ -38,7 +38,7 @@ public class UserController {
     }
     // GET User (solo un usuario)
     @GetMapping(value = "/users/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Integer id){
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
         return ResponseEntity.status(200).body(service.getUserById(id));
     }
 
@@ -51,15 +51,14 @@ public class UserController {
         return ResponseEntity.status(201).body(service.createUser(dto));
     }
     //PUT
-    @PutMapping("/users")
-    public ResponseEntity<UserDto> updateUser(@RequestBody UserDto user){
-        return ResponseEntity.status(200).body(service.update(user));
+    @PutMapping("/users/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto user){
+        return ResponseEntity.status(200).body(service.update(id, user));
     }
 
     //DELETE
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Integer id){
-        service.delete(id);
-        return ResponseEntity.status(200).body("se ha eliminado el Usuario correctamente");
+    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+        return ResponseEntity.status(200).body(service.delete(id));
     }
 }

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository                             //nombre la entidad y tipo de dato del ID de la misma
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
 }

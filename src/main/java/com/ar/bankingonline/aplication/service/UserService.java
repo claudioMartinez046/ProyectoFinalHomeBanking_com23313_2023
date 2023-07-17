@@ -1,6 +1,9 @@
 package com.ar.bankingonline.aplication.service;
 
+import com.ar.bankingonline.api.controllers.dtos.AccountDto;
 import com.ar.bankingonline.api.controllers.mappers.UserMapper;
+import com.ar.bankingonline.domain.exceptions.AccountNotFoundException;
+import com.ar.bankingonline.domain.models.Account;
 import com.ar.bankingonline.domain.models.User;
 import com.ar.bankingonline.api.controllers.dtos.UserDto;
 import com.ar.bankingonline.infrastructure.repositories.UserRepository;
@@ -33,7 +36,7 @@ public class UserService {
 
     }
     // todo: Refactor
-    public UserDto getUserById( Integer id) {
+    public UserDto getUserById( Long id) {
         //OPTIONAL maneja que eld ato venga null o not null
         Optional<User> user = repository.findById(id);
         return UserMapper.userMapToDto(user.get());
@@ -42,7 +45,7 @@ public class UserService {
         return UserMapper.userMapToDto(repository.save(UserMapper.dtoToUser(user)));
     }
 
-    public UserDto update(UserDto user) {
+    public UserDto update(long id, UserDto user) {
         Optional<User> userCreated = repository.findById(id);
 
         if (userCreated.isPresent()){
@@ -52,7 +55,7 @@ public class UserService {
             accountUpdated.setAccounts(entity.getAccounts());
 
             if (user.getIdAccounts() != null) { // Verifica que la lista de cuentas no sea null
-                List < Account> accountList =accountRepository.findAllById(user.getIdAccounts());
+                List <Account> accountList =accountRepository.findAllById(user.getIdAccounts());
                 List<Account> accountListFilter=accountList.stream().filter(e->!entity.getAccounts().contains(e)).toList();
                 accountUpdated.getAccounts().addAll(accountListFilter);
                 accountUpdated.setAccounts(accountList);
@@ -73,8 +76,23 @@ public class UserService {
         //return UserMapper.userMapToDto(repository.save(UserMapper.dtoToUser(user)));
     }
 
-      public void delete(Integer id){
-        repository.deleteById(id);
+      public String delete(Long id){
+          if (repository.existsById(id)){
+              repository.deleteById(id);
+              return "Se ha eliminado la cuenta";
+          } else {
+              return "No se ha eliminado la cuenta";
+          }
+      }
+
+         // TODO: Generar la asociación de una primer cuenta al crear un User
+         // Agregar una cuenta al usuario
+        public UserDto addAccountToUser(AccountDto account, Long id){
+        // primero: buscar el usuario por id
+        // segundo: añadir la cuenta a la lista del usuario encontrado
+        // tercero: devolver el usuario con la cuenta agregada
+        return null;
+        //repository.deleteById(id);
     }
 
 }
