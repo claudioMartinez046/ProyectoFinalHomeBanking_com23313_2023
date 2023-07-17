@@ -15,5 +15,8 @@ public class Account {
     private Long Id;
     private int number;
     private BigDecimal amount;
-    //private User owner;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User owner;
 }

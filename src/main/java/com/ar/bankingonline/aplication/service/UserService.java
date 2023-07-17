@@ -43,11 +43,34 @@ public class UserService {
     }
 
     public UserDto update(UserDto user) {
+        Optional<User> userCreated = repository.findById(id);
+
+        if (userCreated.isPresent()){
+            User entity = userCreated.get();
+
+            User accountUpdated = UserMapper.dtoToUser(user);
+            accountUpdated.setAccounts(entity.getAccounts());
+
+            if (user.getIdAccounts() != null) { // Verifica que la lista de cuentas no sea null
+                List < Account> accountList =accountRepository.findAllById(user.getIdAccounts());
+                List<Account> accountListFilter=accountList.stream().filter(e->!entity.getAccounts().contains(e)).toList();
+                accountUpdated.getAccounts().addAll(accountListFilter);
+                accountUpdated.setAccounts(accountList);
+            }
+
+            accountUpdated.setId(entity.getId());
+
+            User saved = repository.save(accountUpdated);
+
+            return UserMapper.userMapToDto(saved);
+        } else {
+            throw new AccountNotFoundException("User not found with id: " + id);
+        }
         //explicacion return = se recibe un userDTO que en el ultimoparentesis,
         //con los mappers los convertimos a una entidad que se guarda a la DB
         //a su vez ese usuario entidad es mapeado a userDto para retornar al controller
         //para finalmente devolver al body.
-        return UserMapper.userMapToDto(repository.save(UserMapper.dtoToUser(user)));
+        //return UserMapper.userMapToDto(repository.save(UserMapper.dtoToUser(user)));
     }
 
       public void delete(Integer id){
