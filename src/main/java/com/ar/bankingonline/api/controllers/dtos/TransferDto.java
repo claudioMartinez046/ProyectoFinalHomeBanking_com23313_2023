@@ -9,8 +9,8 @@ import java.util.Date;
 @Data
 public class TransferDto {
     private Long id;
-    private Account origin;
-    private Account target;
+    private Long origin; // check
+    private Long target; // check
     private Date date;
     private BigDecimal amount;
 }

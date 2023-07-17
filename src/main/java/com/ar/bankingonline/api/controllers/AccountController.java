@@ -4,6 +4,7 @@ import com.ar.bankingonline.api.controllers.dtos.AccountDto;
 import com.ar.bankingonline.aplication.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public class AccountController {
         List<AccountDto> accounts = service.getAccounts();
         //2)realizado_mapear la repuesta del DTO a una lista de obgeto User(Mapper)
         //3)devolver a la lista y enviar como repuesta
-        return ResponseEntity.status(200).body(accounts);
+        return ResponseEntity.status(HttpStatus.OK).body(accounts);
        }
     // GET User (solo una cuenta)
     @GetMapping(value = "/accounts/{id}")
@@ -45,8 +46,8 @@ public class AccountController {
 
     //PUT update
     @PutMapping(value = "/accounts")
-    public ResponseEntity<AccountDto> updateAccount(@RequestBody AccountDto account){
-        return ResponseEntity.status(HttpStatus.OK).body(service.updateAccount(account));
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable Long id, @RequestBody AccountDto account){
+        return ResponseEntity.status(HttpStatus.OK).body(service.updateAccount(id, account));
     }
     // delete
     @DeleteMapping(value = "/accounts/{id}")

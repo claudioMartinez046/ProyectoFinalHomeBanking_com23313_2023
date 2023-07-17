@@ -23,6 +23,8 @@ public class AccountService {
     //declaro una instancia del repositorio con la notyacion @autowire y sin
     @Autowired
     private AccountRepository repository;
+    @Autowired
+    private UserRepository userRepository;
 
     public AccountService(AccountRepository repository) {
         this.repository = repository;
@@ -110,7 +112,6 @@ public class AccountService {
         }
 
 
-
-    }
+}
     //agregar metods de ingreso y egreso de dinero y realizacion de tanferencia
 

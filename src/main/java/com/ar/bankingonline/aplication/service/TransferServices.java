@@ -2,8 +2,12 @@ package com.ar.bankingonline.aplication.service;
 
 import com.ar.bankingonline.api.controllers.dtos.TransferDto;
 import com.ar.bankingonline.api.controllers.mappers.TransferMapper;
+import com.ar.bankingonline.aplication.exceptions.InsufficientFundsException;
+import com.ar.bankingonline.domain.exceptions.AccountNotFoundException;
+import com.ar.bankingonline.domain.exceptions.TransferNotFoundException;
 import com.ar.bankingonline.domain.models.Account;
 import com.ar.bankingonline.domain.models.Transfer;
+import com.ar.bankingonline.infrastructure.repositories.AccountRepository;
 import com.ar.bankingonline.infrastructure.repositories.TransfersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,8 @@ public class TransferServices {
 
     @Autowired
     private TransfersRepository repository;
+    @Autowired
+    private AccountRepository accountRepository;
 
     public TransferServices(TransfersRepository repository) {
         this.repository = repository;
