@@ -11,12 +11,12 @@ import java.math.BigDecimal;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
+    //@Column(name = "account_id")
     private Long Id;
     private int number;
-    private BigDecimal amount;
+    private BigDecimal balance;
 
-    @ManyToOne()
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    //@JoinColumn(name = "user_id")
     private User owner;
 }

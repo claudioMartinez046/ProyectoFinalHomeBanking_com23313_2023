@@ -17,7 +17,7 @@ public class User {
     private String username;
     private String password;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Account> accounts;
 
 

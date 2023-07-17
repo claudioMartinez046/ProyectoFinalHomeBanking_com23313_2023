@@ -23,6 +23,7 @@ public class TransferMapper {
         dto.setOrigin(transfer.getOrigin());
         dto.setTarget(transfer.getTarget());
         dto.setAmount(transfer.getAmount());
+        dto.setId(transfer.getId());
         return dto;
     }
 }

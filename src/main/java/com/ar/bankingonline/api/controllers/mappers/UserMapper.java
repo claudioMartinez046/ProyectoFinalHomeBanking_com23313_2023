@@ -4,6 +4,8 @@ import com.ar.bankingonline.domain.models.User;
 import com.ar.bankingonline.api.controllers.dtos.UserDto;
 import lombok.experimental.UtilityClass;
 
+import java.util.ArrayList;
+
 @UtilityClass
 public class UserMapper {
     //los mappers me permieten enviar los datos desde
@@ -14,6 +16,8 @@ public class UserMapper {
         UserDto dto = new UserDto();
         dto.setUsername(user.getUsername());
         dto.setPassword(user.getPassword());
+        //TODO:modificar getAccount para obtener una lista de DTO
+        //dto.setAccounts(user.getAccounts());
         dto.setId(user.getId());
         return dto;
     }
@@ -22,7 +26,10 @@ public class UserMapper {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setPassword(dto.getPassword());
-        user.setId(dto.getId());
+        //TODO:modificar getAccount del DTO para obtener una lista users
+        //user.setAccounts(dto.getAccounts());
+        user.setAccounts(new ArrayList<>());
+        //user.setId(dto.getId());
         return user;
     }
 }

@@ -8,10 +8,12 @@ import com.ar.bankingonline.domain.exceptions.AccountNotFoundException;
 import com.ar.bankingonline.domain.models.Account;
 import com.ar.bankingonline.domain.models.User;
 import com.ar.bankingonline.infrastructure.repositories.AccountRepository;
+import com.ar.bankingonline.infrastructure.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -55,7 +57,7 @@ public class AccountService {
             }
             if (account.getOwner()!=null){
                 //si hay un owner en el body me traigo la entidad completa de bd por el id para vinculale ese usuario a la cuenta
-                User user=userRepository.getReferenceById(account.getOwner().getId());
+                User user= userRepository.getReferenceById(account.getOwner().getId());
                 if (user!=null){
                     entity.setOwner(user);
                 }
@@ -72,15 +74,17 @@ public class AccountService {
         }
     }
 
-    public String deleteAccount(Long id){
+    public String deleteAccount(Long id) {
 
-        if (repository.existsById(id)){
+        if (repository.existsById(id)) {
             repository.deleteById(id);
             return "Se ha eliminado la cuenta";
         } else {
             return "No se ha eliminado la cuenta";
         }
+    }
         // Agregar métodos de ingreso y egreso de dinero y realizacion de transferencia
+        //retiro/egreso de dinero/ cuenta origen
         public BigDecimal withdraw(BigDecimal amount, Long idOrigin){
             // primero: Obtenemos la cuenta
             Account account = repository.findById(idOrigin).orElse(null);
@@ -93,6 +97,7 @@ public class AccountService {
             return account.getBalance().subtract(amount);
         }
 
+        //Ingreso/deposito de dinero/cuenta destino
         public BigDecimal addAmountToAccount(BigDecimal amount, Long idOrigin){
             // primero: Obtenemos la cuenta
             Account account = repository.findById(idOrigin).orElse(null);
@@ -103,7 +108,7 @@ public class AccountService {
             return amount;
 
         }
-    }
+
 
 
     }
