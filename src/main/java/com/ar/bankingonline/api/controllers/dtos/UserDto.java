@@ -12,5 +12,6 @@ public class UserDto {
     private Long id;
     private String username;
     private String password;
+    //va a mostrar los ID de las cuentas
     private List<Long> idAccounts;
 }

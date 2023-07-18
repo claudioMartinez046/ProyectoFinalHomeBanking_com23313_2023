@@ -7,6 +7,7 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class AccountMapper {
+
     public Account dtoToAccount(AccountDto dto){
         Account account = new Account();
         account.setBalance(dto.getAmount());
@@ -16,12 +17,8 @@ public class AccountMapper {
     public AccountDto accountToDto(Account account){
         AccountDto dto = new AccountDto();
         dto.setAmount(account.getBalance());
-        //tiraba nullpointer porque no se le estaba seteando el owner y no se puede mapear un objeto nulo
-        if (account.getOwner()!=null){
-            UserDto userDto=UserMapper.userMapToDto(account.getOwner());
-            dto.setOwner(userDto);
-        }
-
+        UserDto userDto = UserMapper.userMapToDto(account.getOwner());
+        dto.setOwner(userDto);
         dto.setId(account.getId());
         return dto;
     }

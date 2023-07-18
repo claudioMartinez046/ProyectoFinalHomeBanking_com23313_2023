@@ -5,6 +5,7 @@ import com.ar.bankingonline.api.controllers.dtos.UserDto;
 import com.ar.bankingonline.aplication.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class UserController {
         List<UserDto> usuarios = service.getUsers();
         //2)realizado_mapear la repuesta del DTO a una lista de obgeto User(Mapper)
         //3)devolver a la lista y enviar como repuesta
-         return ResponseEntity.status(200).body(usuarios);
+         return ResponseEntity.status(HttpStatus.OK).body(usuarios);
          //harcodeado  para test
         /*User user =new User("Cris", "1234");
         user.setId(01);*/
@@ -40,7 +41,7 @@ public class UserController {
     // GET User (solo un usuario)
     @GetMapping(value = "/users/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id){
-        return ResponseEntity.status(200).body(service.getUserById(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.getUserById(id));
     }
 
     //POST (crear usuario)
@@ -49,17 +50,17 @@ public class UserController {
     //RequestBody = recibimos un usario por el body del HTML
     public ResponseEntity<UserDto> createUser(@RequestBody UserDto dto){
         //redijiera hacia el responsable de crear el user en la DB
-        return ResponseEntity.status(201).body(service.createUser(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(service.createUser(dto));
     }
     //PUT
     @PutMapping("/users/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto user){
-        return ResponseEntity.status(200).body(service.update(id, user));
+        return ResponseEntity.status(HttpStatus.OK).body(service.update(id, user));
     }
 
     //DELETE
     @DeleteMapping("/users/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
-        return ResponseEntity.status(200).body(service.delete(id));
+        return ResponseEntity.status(HttpStatus.OK).body(service.delete(id));
     }
 }

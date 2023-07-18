@@ -30,8 +30,7 @@ public class TransferController {
         TransferDto transfer = service.getTransferById(id);
         return ResponseEntity.status(HttpStatus.OK).body(transfer);
     }
-
-
+    //creacion de tranferencia
     @PostMapping(value = "/transfers")
     public ResponseEntity<TransferDto> performTransfer(@RequestBody TransferDto dto){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.performTransfer(dto));

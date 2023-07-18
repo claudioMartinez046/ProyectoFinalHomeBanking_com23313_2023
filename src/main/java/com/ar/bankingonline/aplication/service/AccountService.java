@@ -11,6 +11,7 @@ import com.ar.bankingonline.infrastructure.repositories.AccountRepository;
 import com.ar.bankingonline.infrastructure.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.math.BigDecimal;
@@ -26,9 +27,11 @@ public class AccountService {
     @Autowired
     private UserRepository userRepository;
 
-    public AccountService(AccountRepository repository) {
+    public AccountService(AccountRepository repository,UserRepository  userRepository){
         this.repository = repository;
+        this.userRepository=userRepository;
     }
+    @Transactional //funciona como un rollBacka, identficar como una operacion atomica , sirve para ver sise realiza todos los paso los ejecuta ,si hay algun error vuelve hacia atras
     public List<AccountDto> getAccounts(){
         List<Account> accounts = repository.findAll();
         return accounts.stream()
@@ -36,16 +39,22 @@ public class AccountService {
                 .collect(Collectors.toList());
 
     }
-
+    @Transactional
     public AccountDto createAccount(AccountDto account) {
-        return AccountMapper.accountToDto(repository.save(AccountMapper.dtoToAccount(account)));
-    }
+        Optional<User> user=userRepository.findById(account.getOwner().getId());
+        Account accountModel=AccountMapper.dtoToAccount(account);
+        accountModel.setOwner(user.get());
+        accountModel=repository.save(accountModel);
+        AccountDto dto=AccountMapper.accountToDto(accountModel);
+        return dto;
 
+    }
+    @Transactional
     public AccountDto getAccountById(Long id) {
         AccountDto account =AccountMapper.accountToDto(repository.findById(id).get());//o .findById(id).orElse(null);
         return account;
     }
-
+    @Transactional
     public AccountDto updateAccount(Long id, AccountDto account) throws AccountNotFoundException {
         //return AccountMapper.accountToDto(repository.save(AccountMapper.dtoToAccount(account)));
         Optional<Account> accountCreated = repository.findById(id);
@@ -75,7 +84,7 @@ public class AccountService {
             throw new AccountNotFoundException("Account not found with id: " + id);
         }
     }
-
+    @Transactional
     public String deleteAccount(Long id) {
 
         if (repository.existsById(id)) {

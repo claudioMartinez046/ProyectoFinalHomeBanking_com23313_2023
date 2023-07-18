@@ -34,7 +34,7 @@ public class AccountController {
     @GetMapping(value = "/accounts/{id}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id){
         AccountDto account = service.getAccountById(id);
-        return ResponseEntity.status(200).body(account);
+        return ResponseEntity.status(HttpStatus.OK).body(account);
     }
     //POST (crear usuario)
     @PostMapping("/accounts")
